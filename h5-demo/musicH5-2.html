@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OPPO LAB</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-size: 36px;
+        }
+
+        @font-face {
+            font-family: "OPPOSans-Bold";
+            src: url("https://file-grom.coloros.com/50c73245/b61a41309c599bd80e9d54881b66100e.eot"), url("https://file-grom.coloros.com/eb74d855/f126244c2b47bc855e5da397cf787b4a.woff2") format("woff2"), url("https://file-grom.coloros.com/e1ed5ba0/bf4eea8ea661f87004c026e6561495c9.woff") format("woff"), url("https://file-grom.coloros.com/d746b2a7/066971b39330f5cd1781d5ada124f13c.ttf") format("truetype");
+            font-style: normal;
+            font-weight: 200;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "OPPOSans-Regular";
+            src: url("https://file-grom.coloros.com/2ac9c2c2/65b281afb94a91c9e0ba86b70e98b012.eot"), url("https://file-grom.coloros.com/789763b4/745eb530bf7dc158341d1bc99955394c.woff2") format("woff2"), url("https://file-grom.coloros.com/269e1269/619011ed945815793adfd56d05ff4aff.woff") format("woff"), url("https://file-grom.coloros.com/721b360b/700e1b1c30cbecc396415f00a1a09eed.ttf") format("truetype");
+            font-style: normal;
+            font-weight: 200;
+            font-display: swap;
+        }
+
+        #H5Content {
+            /* width: 360px; */
+            height: 100%;
+            padding: .833333rem;
+            padding: 30px;
+            font-family: OPPOSans-Regular;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-size: cover;
+            /* background: #B12526; */
+            position: relative;
+
+        }
+
+        .ringTone {
+            width: 5.694444rem;
+            padding: .555556rem .555556rem 0 .555556rem;
+            position: absolute;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            align-items: center
+        }
+
+        .videoCanvas {
+            width: 6.111111rem;
+            height: 6.111111rem;
+            margin: 0 auto;
+            position: relative;
+
+        }
+
+        .musicContent {
+            width: 6.111111rem;
+            height: 6.111111rem;
+            /* background: #971E1E; */
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #canvas,
+        #shadow {
+            width: 6.111111rem;
+            height: 6.111111rem;
+            position: absolute;
+            border-radius: 50%;
+            overflow: hidden;
+            top: 0;
+            bottom: 0;
+            opacity: 0.2;
+        }
+
+        #shadow {
+            opacity: 0.1;
+            /* display: none; */
+        }
+
+        .videoButton {
+            width: 1.777778rem;
+            height: 1.777778rem;
+            border-radius: 50%;
+            background: #ffffff;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .videoButton img {
+            width: .694444rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .videoButton:active {
+            opacity: 0.9;
+        }
+
+        .foot {
+            /* height:1.527778rem; */
+            opacity: 0.5;
+            padding: 2px;
+            display: flex;
+            /* display: none; */
+        }
+
+        .foot span {
+            opacity: 0.5;
+            /* background: #  971E1E; */
+            color: #FFFFFF;
+            font-weight: 500;
+            font-size: 14px;
+            /* line-height: normal; */
+            line-height: 1.527778rem;
+            letter-spacing: 0px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            /* width: 4.083333rem */
+            width: 100%;
+        }
+
+        .foot:active {
+            opacity: 0.6;
+        }
+
+        #model,
+        #loading,
+        #linkError,
+        #toBrowserModel {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            align-items: center;
+            font-family: OPPOSans-Regular;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        #toBrowserModel {
+            color: #ffffff;
+            line-height: 22px;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .toBroswerTip {
+            position: fixed;
+            top: 12px;
+            right: 20px;
+        }
+
+        .toBroswerTipImag {
+            width: 30px;
+            margin-bottom: 5px;
+        }
+
+        #loading {
+            background: rgba(124, 116, 116, 0);
+            display: flex;
+            display: none;
+
+        }
+
+        #loading .panel {
+            width: 5rem;
+            height: 3.222222rem;
+            /* display: none; */
+            /* display: flex; */
+        }
+
+        .panel {
+            width: 8.888889rem;
+            /* height: 4.611111rem; */
+            background: #ffffff;
+            border-radius: 18px;
+            margin: 0 auto;
+            padding: 0 .833333rem 0 .833333rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lineErrorWrap {
+            margin: 0 auto
+        }
+
+        .lineErrorWrap .panel {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .panelButtons {
+            background: #ffffff;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+        }
+
+        .title {
+            color: #000000;
+            font-family: OPPOSans-Bold;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 58px;
+            letter-spacing: 0px;
+            text-align: center;
+            height: 58px;
+        }
+
+        .tip {
+            color: #000000;
+            font-family: OPPOSans-Regular;
+            font-size: 14px;
+            line-height: 22px;
+            letter-spacing: 0px;
+            text-align: center;
+            padding: 0 .083333rem;
+            flex: 1;
+        }
+
+        .closeButton,
+        .closeErrTipButton {
+            color: #000000;
+            font-family: OPPOSans-Bold;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 58px;
+            letter-spacing: 0px;
+            text-align: center;
+            height: 58px;
+        }
+
+        .closeErrTipButton {
+            display: inline-block;
+            text-decoration: none;
+            width: 49%;
+        }
+
+        .loadingImg {
+            width: .666667rem;
+            animation: rotate 3s ease-in infinite;
+            -webkit-animation: rotate 3s ease-in infinite;
+            /*Safari and Chrome*/
+        }
+
+        /* .musicContent,#canvas,#shadow,.videoCanvas{
+      max-width: 257px;
+      max-height: 257px;
+    } */
+
+
+        @media only screen and (min-width: 420px) {
+
+            .musicContent,
+            #canvas,
+            #shadow,
+            .videoCanvas {
+                width: 220px;
+                height: 220px;
+            }
+
+            #H5Content {
+                display: flex;
+                align-items: center;
+            }
+
+            .wrapper {
+                width: 300px;
+                height: 632px;
+                margin: 0 auto;
+            }
+
+            .videoButton {
+                width: 64px;
+                height: 64px;
+            }
+
+            .videoButton img {
+                width: 25px;
+            }
+
+            .loadingImg {
+                width: 24px;
+            }
+
+            .panel {
+                width: 379px;
+                padding: 0 30px;
+            }
+
+            .panelButtons {
+                width: 379px;
+            }
+
+            #loading .panel {
+                width: 180px;
+                height: 116px;
+                padding: 0 30px;
+            }
+
+            .foot span {
+                line-height: 56px;
+            }
+
+            .ringTone {
+                width: 204px;
+                padding: 20px 20px 0 20px;
+            }
+
+        }
+
+        .loadingImg {
+            -moz-animation: change 1s linear infinite;
+            -ms-animation: change 1s linear infinite;
+            -o-animation: change 1s linear infinite;
+            -webkit-animation: change 1s linear infinite;
+            animation: change 1s linear infinite;
+        }
+
+        @keyframes change {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes change {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            50% {
+                -webkit-transform: rotate(180deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @-moz-keyframes change {
+            0% {
+                -moz-transform: rotate(0deg);
+            }
+
+            50% {
+                -moz-transform: rotate(180deg);
+            }
+
+            100% {
+                -moz-transform: rotate(360deg);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 以下是h5的内容 -->
+    <div id="H5Content" class="setContentColor">
+        <div class="wrapper setTitleColor" id="wrapper">
+            <div class="content">
+                <div class="videoCanvas">
+                    <div class="musicContent setContentColor">
+                        <canvas></canvas>
+                    </div>
+                    <div class="videoButton" id="controlAudio">
+                        <img class="play"
+                            src=" https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/d465adf8/0e0fadc37cf777cea4fbb4746788ec86.png"
+                            alt="">
+                        <img class="pause" style="display: none;"
+                            src="https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/c91d2702/491b62cdf14c04d4092c77d1fa66eb4d.png"
+                            alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="foot" id="foot">
+                <!-- <span href="" id="downlowBtn">下载应用</span> -->
+                <!-- 此处需替换设为铃声按钮文案的内容 -->
+                <span id="setMusicBtn" class="setContentColor">设为铃声</span>
+            </div>
+        </div>
+    </div>
+    <div id="model">
+        <div class="panel">
+            <p class="title">Sorry</p>
+            <div class="tip">电波暂时无法到达非 OPPO LAB 的星球,请等待应用商店上线</div>
+            <!-- 4——此处的背景色使用contentColor -->
+            <p class="closeButton">等待 OPPO LAB 上线</p>
+        </div>
+    </div>
+    <div id="linkError">
+        <div class="lineErrorWrap">
+            <div class="panel">
+                <p class="title">此功能需要访问客户端</p>
+                <!-- <div class="tip">电波暂时无法到达非 OPPO LAB 的星球,请等待应用商店上线</div> -->
+                <!-- 4——此处的背景色使用contentColor -->
+                <!-- <p class="closeButton" ></p> -->
+            </div>
+
+            <div class="panelButtons">
+                <a class="closeErrTipButton" href="market://details?id=com.heytap.lab">下载 OPPO LAB</a>
+                <span class="closeErrTipButton closeTipModel">继续浏览</span>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="toBrowserModel">
+        <div class="toBroswerTip">
+            <img class="toBroswerTipImag"
+                src="https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/346ea64f/85d3406674285e11fec842d9590405a8.png"
+                alt="">
+            <p>点击这里</p>
+            <p>选择浏览器打开</p>
+        </div>
+    </div>
+    <div id="loading">
+        <div class="panel">
+            <p class="title" id="loadingDialog">加载中...</p>
+            <div class="closeButton"><img class="loadingImg"
+                    src="https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/2bec1d79/85dc348f7a87c106b9871dbd035e9705.png"
+                    alt=""></div>
+        </div>
+    </div>
+    <!-- 要替换的信息 -->
+    <div class="message" style="display: none;">
+        <!-- 1——此处的背景色使用contentColor -->
+        <div class="contentColor">#971E1E</div>
+        <!-- 2——此处的背景色使用titleColor -->
+        <div class="titleColor">#B12526</div>
+        <!-- 5——此处需替换DeepLink的内容 -->
+        <div id="deeplink">
+            lab://dispatch/main?objectKey=C9ED8361B6984B6882F273CB58A2892Cf04dcf1d818055d135f9c6b37670587c1592282845801&icon=ic_ringtone_ease&titleColor=8F1818&contentColor=A31313
+        </div>
+
+
+        <!-- 以下是翻译的内容 -->
+        <div id="loadingMsg">加载中...</div>
+        <div id="saveMsg"></div>
+        <!-- 没有OPPPO Lab时候的错误提示 -->
+        <div id="noOppoLab">
+            <p class="title">此功能需要访问客户端</p>
+            <p> 下 载 </p> 
+            <p>继续浏览</p>
+        </div>
+        <!-- 请求错误的提示 -->
+        <div id="netWorkError">
+            <p class="title">音乐加载失败</p>
+            <div class="tip">网络状态或服务器异常，请检查网络状态，或稍后再试</div>
+            <p class="closeButton">知道啦</p>
+        </div>
+    </div>
+</body>
+<!-- jquery -->
+<script src="https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/8e8afd0b/a4605b30c18d6fe9bf87e613303abb75.js"></script>
+<!-- device的依赖文件 -->
+<script
+    src="https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/dc012fb8/329e4f6c4fe8887b25b6b7be68d46ee9.js"></script>
+<!-- ua-device -->
+<script
+    src="https://system-file-bucket.oss-cn-shanghai.aliyuncs.com/05fa2d66/a38d58bb9e3dcbe73a605eb767c23880.js"></script>
+<!-- <script src="https://fex-team.github.io/ua-device/js/ua-device.js"></script> -->
+<script>
+    // set rem
+    (function (doc, win, undefined) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in win ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (clientWidth === undefined) return;
+                docEl.style.fontSize = 36 * (clientWidth / 360) + 'px';
+            };
+        if (doc.addEventListener === undefined) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false)
+    })(document, window);
+
+    $(function () {
+        var CommonStatus = {
+            visible: true,
+            initStyle: function () {
+                // 根据后端返回的数据，页面样式初始化
+                var contentColor = $('.contentColor').text().trim()
+                var titleColor = $('.titleColor').text().trim()
+                var setContentColor = document.getElementsByClassName('setContentColor')
+                var setTitleColor = document.getElementsByClassName('setTitleColor')
+                for (var i = 0; i < setContentColor.length; i++) {
+                    setContentColor[i].style.background = contentColor
+                }
+                for (var j = 0; j < setTitleColor.length; j++) {
+                    setTitleColor[j].style.background = titleColor
+                }
+            },
+            visibilityChange: function () {
+                // 监听页面离开，停止一些功能
+                var hidden, state, visibilityChange;
+                //    兼容各个浏览器
+                if (typeof document.hidden !== "undefined") {
+                    hidden = "hidden";
+                    visibilityChange = "visibilitychange";
+                    state = "visibilityState";
+                } else if (typeof document.mozHidden !== "undefined") {
+                    hidden = "mozHidden";
+                    visibilityChange = "mozvisibilitychange";
+                    state = "mozVisibilityState";
+                } else if (typeof document.msHidden !== "undefined") {
+                    hidden = "msHidden";
+                    visibilityChange = "msvisibilitychange";
+                    state = "msVisibilityState";
+                } else if (typeof document.webkitHidden !== "undefined") {
+                    hidden = "webkitHidden";
+                    visibilityChange = "webkitvisibilitychange";
+                    state = "webkitVisibilityState";
+                }
+                var that = this
+                document.addEventListener(visibilityChange, function () {
+                    if (document.hidden) {
+                        console.log('离开函数执行了')
+                        Dialogs.closeTipModel('#linkError')
+                        that.visible = false
+                        // console.log(Player.source)
+                        if (Player.hasStarted) {
+                            Player.source.stop()
+                        }
+
+                    } else {
+                        that.visible = true
+
+                        // Player.source.start()
+                    }
+                }, false);
+            },
+            OS: function () {
+                // 获取终端信息，主要支持在不同终端和浏览器上对不支持自动播放的处理
+                var ua = navigator.userAgent,
+                    isWindowsPhone = /(?:Windows Phone)/.test(ua),
+                    isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+                    isAndroid = /(?:Android)/.test(ua),
+                    isFireFox = /(?:Firefox)/.test(ua),
+                    isChrome = /(?:Chrome|CriOS)/.test(ua),
+                    isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+                    isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+                    isPc = !isPhone && !isAndroid && !isSymbian,
+                    isWechart = /micromessenger/.test(ua.toLowerCase()),
+                    isQQ = /qqtheme/.test(ua.toLowerCase());
+
+                return {
+                    isTablet: isTablet,
+                    isPhone: isPhone,
+                    isAndroid: isAndroid,
+                    isPc: isPc,
+                    isWechart: isWechart,
+                    isQQ:isQQ
+                };
+            },
+            init: function () {
+                this.initStyle()
+                this.OS()
+                console.log(this.OS().isWechart)
+                this.visibilityChange()
+            }
+        }
+
+        var Dialogs = {
+            notWaitting: true,
+            reSetModelContent: function (title, tip, button) {
+                $('#model .title').text(title)
+                $('#model .tip').text(tip)
+                $('#model .closeButton').text(button)
+                $('#model').css('display', 'flex')//打开弹窗
+            },
+            closeModel: function () {
+                var that = this
+                var closeButton = document.querySelector('.closeButton')
+                closeButton.addEventListener('click', function () {
+                    that.closeTipModel('#model')
+                })
+            },
+            closeLinkErrorModel: function () {
+                // 关闭跳转失败的弹窗
+                var that = this
+                var closeButton = document.querySelector('.closeTipModel')
+                closeButton.addEventListener('click', function () {
+                    that.closeTipModel('#linkError')
+                })
+            },
+            closeLoading: function () {
+                $('#loading').css('display', 'none')
+            },
+            closeTipModel: function (modelName) {
+                var model = document.querySelector(modelName)
+                model.style.display = 'none'
+            },
+            loadError: function () {
+                // 加载错误
+                $(".videoButton img").css({ 'opacity': 0.5 })
+                Dialogs.closeLoading()
+                Dialogs.reSetModelContent(
+                    $('#netWorkError .title').text(),
+                    $('#netWorkError .tip').text(),
+                    $('#netWorkError .closeButton').text()
+                )
+            },
+            browserModel: function () {
+                var browserModel = document.querySelector('#toBrowserModel')
+                browserModel.addEventListener('click', function () {
+                    browserModel.style.display = 'none'
+                })
+            },
+            toOppoLab: function () {
+                // 点击跳转OPPO Lab
+                var setMusic = document.getElementById('setMusicBtn')
+                var that = this
+
+                setMusic.addEventListener('click', function (event) {
+                    // alert(uaDevice(navigator.userAgent).browser.name)
+                    var browserName = uaDevice(navigator.userAgent).browser.name
+                    // QQ在清理存储数据后第一次登陆拿到的Ua是chrome的，所以要将QQ排除
+                    if ((CommonStatus.OS().isWechart ||  browserName.indexOf('Chrome') !== -1 ) && !CommonStatus.OS().isWechart) {
+                        $('#toBrowserModel').css('display', 'flex')
+                    } else {
+                        // alert(uaDevice(navigator.userAgent).browser.name)
+                        if (!that.notWaitting) {
+                            return false
+                        }
+                        that.notWaitting = false
+                        var url = $('#deeplink').text().trim()
+                        var ifr = document.createElement('iframe')
+                        if (!ifr.click) {
+                            window.location = url
+                        }
+                        ifr.src = url
+                        ifr.style.display = 'none'
+                        document.body.appendChild(ifr)
+                        ifr.click()
+                        setTimeout(function () {
+                            that.notWaitting = true
+                            console.log(document.visibilityState)
+                            if (document.visibilityState == 'visible') {
+                                $('#linkError').css('display', 'flex')
+                            }
+
+                            document.body.removeChild(ifr)
+                        }, 500);
+                    }
+
+                })
+
+            },
+            init: function () {
+                this.closeLinkErrorModel()
+                this.closeModel()
+                this.toOppoLab()
+                this.browserModel()
+            }
+        }
+
+
+        var Framer = {
+            countTicks: 360,
+            frequencyData: [],
+            tickSize: 10,
+            PI: 360,
+
+            index: 0,
+
+            loadingAngle: 0,
+
+            init: function (scene) {
+                this.canvas = document.querySelector('canvas');
+                this.scene = scene;
+                this.context = scene.context;
+                this.contextShadow = scene.context;
+                // this.configure();
+            },
+
+            configure: function () {
+                // this.maxTickSize = this.tickSize * 9 * this.scene.scaleCoef;
+                // this.countTicks = 360 * Scene.scaleCoef;
+            },
+
+            draw: function () {
+                this.drawTicks1();
+                // this.drawEdging();
+            },
+            drawTicks1: function () {
+                // console.log("aa")
+                // x = 0;
+
+                var bufferLength = Player.analyser.frequencyBinCount;
+                var dataArray = new Uint8Array(bufferLength);
+                Player.analyser.getByteFrequencyData(dataArray);
+                var WIDTH = this.canvas.width;
+                var HEIGHT = this.canvas.height - 1;
+                var meterNum = Math.ceil(WIDTH / 4)
+                var step = Math.round(dataArray.length / meterNum)
+                var barWidth = 2;
+
+                // var barWidth = (WIDTH / bufferLength) * 2.5;
+                this.context.fillStyle = "#000";
+                // this.context.fillRect(0, 0, WIDTH, HEIGHT);
+                this.context.clearRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT)
+                this.contextShadow.clearRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT)
+
+                for (var i = 0, len = Math.ceil(meterNum / 2); i < len; ++i) {
+
+                    var value = dataArray[i * step];
+                    barHeight = dataArray[i];
+                    this.context.fillStyle = 'rgba(0,0,0,0.2)';
+                    this.contextShadow.fillStyle = "rgba(0,0,0,0.2)";
+
+                    this.context.fillRect(i * 4, - value * 0.25 - (value ? 0 : 1), barWidth, 2 * value * 0.25 + (value ? 0 : 2));
+                    this.contextShadow.fillRect(i * 4, - value * 0.4 - (value ? 0 : 1), barWidth, 2 * value * 0.4 + (value ? 0 : 2));
+                    if (i) {
+                        this.context.fillRect(-i * 4, - value * 0.25 - (value ? 0 : 1), barWidth, 2 * value * 0.25 + (value ? 0 : 2));
+                        this.contextShadow.fillRect(-i * 4, - value * 0.4 - (value ? 0 : 1), barWidth, 2 * value * 0.4 + (value ? 0 : 2));
+                    }
+                    // this.context.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+                    // x += barWidth + 1;
+                }
+            }
+        };
+        'use strict';
+
+        var Tracker = {
+
+            innerDelta: 20,
+
+            lineWidth: 7,
+
+            prevAngle: 0.5,
+
+            angle: 0,
+
+            animationCount: 10,
+
+            pressButton: false,
+
+            init: function (scene) {
+                this.scene = scene;
+                this.context = scene.context;
+                this.initHandlers();
+            },
+
+            initHandlers: function () {
+                var that = this;
+                this.scene.canvas.addEventListener('mousedown', function (e) {
+                    if (that.isInsideOfSmallCircle(e) || that.isOusideOfBigCircle(e)) {
+                        return;
+                    }
+                    that.prevAngle = that.angle;
+                    that.pressButton = true;
+                    that.stopAnimation();
+                });
+
+                window.addEventListener('mouseup', function () {
+                    if (!that.pressButton) {
+                        return;
+                    }
+                    var id = setInterval(function () {
+                        if (!that.animatedInProgress) {
+                            that.pressButton = false;
+                            Player.context = 0
+                            // Player.context.currentTime = that.angle / (2 * Math.PI) * Player.source.buffer.duration;
+                            clearInterval(id);
+                        }
+                    }, 100);
+                });
+
+                window.addEventListener('mousemove', function (e) {
+                    if (that.animatedInProgress) {
+                        return;
+                    }
+                });
+            },
+
+            stopAnimation: function () {
+                // clearTimeout(this.animateId);
+                // this.animatedInProgress = false;
+            }
+        };
+        'use strict';
+
+        var Scene = {
+
+            padding: 120,
+
+            minSize: 740,
+
+            optimiseHeight: 982,
+
+            _inProcess: false,
+
+            init: function () {
+                this.canvasConfigure();
+                this.initHandlers();
+
+                Framer.init(this);
+                // Tracker.init(this);
+                Controls.init(this);
+
+                this.startRender();
+            },
+            canvasConfigure: function () {
+                this.canvas = document.querySelector('canvas');
+                this.context = this.canvas.getContext('2d');
+                this.context.strokeStyle = '#FE4365';
+
+                this.contextShadow = this.canvas.getContext('2d');
+                this.context.strokeStyle = '#FE4365';
+                this.calculateSize();
+
+
+            },
+            calculateSize: function () {
+                // this.scaleCoef = Math.max(0.5, 740 / this.optimiseHeight);
+                var docFontsize = parseFloat(window.getComputedStyle(document.documentElement)['font-size']);
+                var size = docFontsize <= 42 ? docFontsize * 6.12 : 220;
+                this.canvas.setAttribute('width', size);
+                this.canvas.setAttribute('height', size);
+
+                this.context.translate(size / 2, (size - 1) / 2)
+                // this.contextShadow.translate(size / 2, (size-1) / 2)
+            },
+            initHandlers: function () {
+                var that = this;
+                window.onresize = function () {
+                    that.canvasConfigure();
+                    Framer.configure();
+                    that.render();
+                };
+            },
+            render: function () {
+                var that = this;
+                requestAnimationFrame(function () {
+                    that.clear();
+                    that.draw();
+
+                    if (that._inProcess) {
+                        that.render();
+                    }
+                });
+            },
+            clear: function () {
+                this.context.clearRect(0, 0, this.width, this.height);
+                this.contextShadow.clearRect(0, 0, this.width, this.height);
+            },
+            draw: function () {
+                Framer.draw();
+                // Tracker.draw();
+            },
+            startRender: function () {
+                this._inProcess = true;
+                this.render();
+            },
+            stopRender: function () {
+                this._inProcess = false;
+            },
+            inProcess: function () {
+                return this._inProcess;
+            }
+        };
+        'use strict';
+
+        var Controls = {
+            playing: false,
+            init: function (scene) {
+                this.scene = scene;
+                this.context = scene.context;
+                this.contextShadow = scene.context;
+                this.initHandlers();
+                // this.timeControl = document.querySelector('.time');
+            },
+
+            initHandlers: function () {
+                this.initPlayButton();
+                this.initPauseButton();
+            },
+
+            initPlayButton: function () {
+                // debugger
+                var that = this;
+                this.playButton = document.querySelector('.play');
+                this.playButton.addEventListener('mouseup', function () {
+                    that.playButton.style.display = 'none';
+                    that.pauseButton.style.display = 'inline-block';
+                    Player.play();
+                    that.playing = true;
+                });
+            },
+
+            initPauseButton: function () {
+                var that = this;
+                this.pauseButton = document.querySelector('.pause');
+                this.pauseButton.addEventListener('mouseup', function () {
+                    that.playButton.style.display = 'inline-block';
+                    that.pauseButton.style.display = 'none';
+                    Player.pause();
+                    that.playing = false;
+                });
+            }
+        };
+        'use strict';
+
+        var Player = {
+            isAutoPlay: true,
+            buffer: null,
+            duration: 0,
+            hasStarted: false,
+            tracks: [
+                {
+                    artist: "Kavinsky",
+                    song: "Odd Look ft. The Weeknd",
+                    url: "BEYOND-earth.mp3"
+                }
+            ],
+
+            init: function () {
+                // alert(navigator.userAgent)
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                this.context = new AudioContext();
+                this.context.suspend && this.context.suspend();
+                var browserName = uaDevice(navigator.userAgent).browser.name
+                this.refusedStart = false
+                var OS = CommonStatus.OS()
+                // debugger
+                if (OS.isAndroid || OS.isTablet) {
+                    console.log(browserName)
+                    // 手机的不支持自动播放浏览器内核
+                    if (browserName.indexOf('Chrome') !== -1 || browserName.indexOf('WebKit') !== -1  || browserName.indexOf('Safari') !== -1 ) {
+                        this.refusedStart = true;
+                    }
+                }
+                // else if (OS.isTablet) {
+                //     // 平板
+
+                // }
+                else{
+                    // pc
+                    this.refusedStart = true;
+                }
+
+                try {
+
+                    this.javascriptNode = this.context.createScriptProcessor(2048, 1, 1);
+                    this.javascriptNode.connect(this.context.destination);
+                    this.analyser = this.context.createAnalyser();
+                    this.analyser.connect(this.javascriptNode);
+                    this.analyser.smoothingTimeConstant = 0.6;
+                    this.analyser.fftSize = 2048;
+                    this.source = this.context.createBufferSource();
+                    this.destination = this.context.destination;
+                    this.loadTrack(0);
+
+                    this.gainNode = this.context.createGain();
+                    this.source.connect(this.gainNode);
+                    this.gainNode.connect(this.analyser);
+                    this.gainNode.connect(this.destination);
+
+                    this.initHandlers();
+                } catch (e) {
+                }
+                Scene.init();
+            },
+            reStart: function () {
+                this.source = this.context.createBufferSource();
+                this.source.connect(this.gainNode);
+                this.source.buffer = this.buffer;
+
+            },
+            loadTrack: function (index) {
+                var that = this;
+                var request = null
+                if (window.XMLHttpRequest) {
+                    request = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    request = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                // var request = new XMLHttpRequest();
+                var track = this.tracks[index];
+                this.currentSongIndex = index;
+                request.open('GET', track.url, true);
+                request.responseType = 'arraybuffer';
+                request.onload = function () {
+                    that.context.decodeAudioData(request.response, function (buffer) {
+                        that.source.buffer = buffer;
+                        // that.source.loop = true
+                        console.log('缓冲成功')
+                        Dialogs.closeLoading()
+                        that.buffer = buffer
+                        if (CommonStatus.visible) {
+                            if (that.isAutoPlay && !that.refusedStart) {
+                                Controls.playButton.style.display = 'none';
+                                Controls.pauseButton.style.display = 'inline-block';
+                                Player.play();
+                                Controls.playing = true;
+                            } else {
+                                this.refuseStart = false;
+                                return false
+                            }
+                        }
+
+                    });
+                };
+                request.error = function () {
+                    Dialogs.loadError()
+                }
+
+                request.send();
+
+
+            },
+
+            play: function () {
+                var that = this
+                this.context.resume && this.context.resume().then(function () {
+                    that.context.currentTime = 0;
+                })
+
+                this.source.start()
+                this.hasStarted = true
+                this.source.onended = function () {
+                    Controls.playButton.style.display = 'inline-block';
+                    Controls.pauseButton.style.display = 'none';
+                    Controls.playing = false;
+                    Player.reStart()
+                }
+
+
+            },
+
+            stop: function () {
+                this.context.currentTime = 0;
+                this.context.suspend();
+            },
+
+            pause: function () {
+                this.source.stop()
+                Player.reStart()
+                Player.isAutoPlay = false
+            },
+
+            mute: function () {
+                this.gainNode.gain.value = 0;
+            },
+
+            unmute: function () {
+                this.gainNode.gain.value = 1;
+            },
+
+            initHandlers: function () {
+                var that = this;
+
+                this.javascriptNode.onaudioprocess = function () {
+                    Framer.frequencyData = new Uint8Array(that.analyser.frequencyBinCount);
+                    that.analyser.getByteFrequencyData(Framer.frequencyData);
+                };
+            }
+        };
+        CommonStatus.init()
+        Player.init()
+    })
+
+</script>
+
+</html>
